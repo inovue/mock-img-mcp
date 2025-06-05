@@ -1,112 +1,132 @@
 # Mock Image MCP Server
 
-A Model Context Protocol (MCP) server that provides image generation capabilities using Google's Gemini 2.0 Flash Preview model.
+A Model Context Protocol (MCP) server that provides AI-powered image generation capabilities using Google's Gemini 2.0 Flash Preview model.
 
 ## Features
 
-- 🎨 Image generation using Gemini 2.0 Flash Preview
-- 📐 Multiple aspect ratio support (1:1, 16:9, 9:16, 4:3, 3:4)
+- 🎨 High-quality image generation using Gemini 2.0 Flash Preview
+- 📐 Multiple aspect ratios (1:1, 16:9, 9:16, 4:3, 3:4)
 - 🎭 Various artistic styles and categories
-- 🏗️ Clean architecture with design patterns
-- 🛠️ TypeScript with strict typing
-- 📦 pnpm package management
-- 🔧 Biome for linting and formatting
-- 🧪 Vitest for testing with comprehensive coverage
+- 🔌 MCP-compatible for seamless integration with Claude and other clients
 
-## Setup
+## Installation
 
-1. Install dependencies:
+### Prerequisites
+
+- Node.js 18+ and pnpm
+- Google AI API key
+
+### Setup
+
+1. **Clone and install:**
 ```bash
+git clone <repository-url>
+cd mock-img-mcp
 pnpm install
 ```
 
-2. Set up environment variables:
+2. **Configure environment:**
 ```bash
 cp .env.example .env
 # Edit .env and add your GOOGLE_API_KEY
 ```
 
-3. Build the project:
+3. **Build the server:**
 ```bash
 pnpm build
 ```
 
-4. Run in development mode:
+## Usage
+
+### Running the MCP Server
+
 ```bash
-pnpm dev
+pnpm start
 ```
 
-## Architecture
+The server will start and listen for MCP connections on stdio.
 
-The project follows clean architecture principles with clear separation of concerns:
+### Integration with Claude Desktop
 
-```
-src/
-├── config/          # Configuration management (Singleton pattern)
-├── services/        # Business logic services (Strategy pattern)
-├── tools/           # MCP tool implementations (Adapter pattern)
-├── types/           # TypeScript type definitions
-├── utils/           # Utility classes and server management
-└── index.ts         # Application entry point
-```
+Add to your Claude Desktop configuration (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
 
-### Design Patterns Used
-
-- **Singleton Pattern**: `ConfigManager` for centralized configuration
-- **Strategy Pattern**: `ImageGenerationService` interface for different AI providers
-- **Adapter Pattern**: Tool classes adapt services to MCP interface
-- **Dependency Injection**: Services injected into tools for testability
-
-### Testing
-
-The project includes comprehensive testing with Vitest:
-
-- **Unit Tests**: Individual component testing for services, tools, and utilities
-- **Integration Tests**: End-to-end workflow testing
-- **Mocking**: External dependencies mocked for isolated testing
-- **Coverage**: Code coverage reporting to ensure quality
-
-Test structure mirrors the source code organization:
-```
-test/
-├── config/          # Configuration tests
-├── services/        # Service layer tests
-├── tools/           # Tool implementation tests
-├── utils/           # Utility class tests
-├── integration/     # Integration tests
-└── setup.ts         # Test environment setup
+```json
+{
+  "mcpServers": {
+    "mock-img-mcp": {
+      "command": "node",
+      "args": ["/path/to/mock-img-mcp/dist/index.js"],
+      "env": {
+        "GOOGLE_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}
 ```
 
-## Available Tools
+### Available Tools
 
-### `generate_image`
-Generate images using text prompts.
+#### `generate_image`
+Generate images from text descriptions.
 
 **Parameters:**
-- `prompt` (string): The text description for image generation
-- `aspect_ratio` (optional): Image aspect ratio (1:1, 16:9, 9:16, 4:3, 3:4)
-- `style` (optional): Artistic style modifier
+- `prompt` (string, required): Detailed description of the image to generate
+- `aspect_ratio` (string, optional): Image dimensions
+  - Options: `1:1`, `16:9`, `9:16`, `4:3`, `3:4`
+  - Default: `1:1`
+- `style` (string, optional): Artistic style modifier
+  - See available styles with `list_image_styles`
 
-### `list_image_styles`
-Get available styles, aspect ratios, and generation tips.
+**Example:**
+```json
+{
+  "prompt": "A serene mountain landscape at sunset",
+  "aspect_ratio": "16:9",
+  "style": "photorealistic"
+}
+```
 
-## Development Commands
+#### `list_image_styles`
+Retrieve available styles, aspect ratios, and generation tips.
 
-- `pnpm build` - Build TypeScript to JavaScript
-- `pnpm dev` - Run in development mode with hot reload
-- `pnpm start` - Run built application
-- `pnpm test` - Run tests in watch mode
-- `pnpm test:run` - Run tests once
-- `pnpm test:ui` - Run tests with UI interface
-- `pnpm test:coverage` - Run tests with coverage report
-- `pnpm lint` - Check code with Biome
-- `pnpm format` - Format code with Biome
-- `pnpm check` - Run Biome lint and format check
-- `pnpm typecheck` - Run TypeScript type checking
+**Returns:**
+- Available artistic styles
+- Supported aspect ratios
+- Best practices for prompt writing
 
 ## Environment Variables
 
-- `GOOGLE_API_KEY` - Required. Your Google AI API key for Gemini access
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `GOOGLE_API_KEY` | Yes | Your Google AI API key for Gemini model access |
+
+## Getting Your Google API Key
+
+1. Visit [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Create a new API key
+3. Add it to your `.env` file
+
+## Troubleshooting
+
+### Common Issues
+
+**"Invalid API key" error:**
+- Verify your `GOOGLE_API_KEY` is correct
+- Ensure the API key has access to Gemini models
+
+**"Model not available" error:**
+- Check if Gemini 2.0 Flash Preview is available in your region
+- Verify your Google Cloud project has the necessary quotas
+
+**Connection issues:**
+- Ensure the server is running (`pnpm start`)
+- Check Claude Desktop configuration path and syntax
+
+### Getting Help
+
+- Check the error logs in your MCP client
+- Verify environment variable configuration
+- Ensure network connectivity to Google AI services
 
 ## License
 
