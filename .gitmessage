@@ -1,0 +1,30 @@
+# ✨ feat(<scope>): <subject>
+#
+# <body>
+#
+# <footer>
+
+# Type prefix with emoji:
+# ✨ feat:     New feature
+# 🐛 fix:      Bug fix
+# 📚 docs:     Documentation only changes
+# 🎨 style:    Changes that do not affect the meaning of the code
+# ♻️  refactor: A code change that neither fixes a bug nor adds a feature
+# 🧪 test:     Adding missing tests or correcting existing tests
+# 🔧 chore:    Changes to the build process or auxiliary tools
+# ⚡ perf:     A code change that improves performance
+# 👷 ci:       Changes to CI configuration files and scripts
+# 📦 build:    Changes that affect the build system or external dependencies
+# ⏪ revert:   Reverts a previous commit
+
+# Scope (optional): service, tool, config, test, etc.
+
+# Subject: imperative mood, no period, max 50 chars
+# Body: explain what and why (optional)
+# Footer: breaking changes, issue references (optional)
+
+# Examples:
+# ✨ feat(service): add gemini image generation support
+# 🐛 fix(tool): handle api rate limiting errors
+# 📚 docs: update installation instructions
+# 🧪 test(service): add unit tests for style catalog

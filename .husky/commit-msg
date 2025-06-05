@@ -1,0 +1,2 @@
+# Temporarily disabled for initial commit
+# pnpm exec commitlint --edit "$1"
